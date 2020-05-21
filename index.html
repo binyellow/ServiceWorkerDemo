@@ -1,26 +1,80 @@
 <!doctype html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Service Worker offline demo</title>
-    <script src="index.js"></script>
-    <link rel="stylesheet" href="index.css">
+  <meta charset="UTF-8">
+  <title>Service Worker offline demo</title>
+  <script src="index.js"></script>
+  <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
 
-<div class="title">Learn Service Worker.</div>
-<div class="image"></div>
-<script>
+  <div class="title">Learn Service Worker.</div>
+  <div class="image"></div>
+  <script>
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-            .then(function(reg) {
-                // registration worked
-                console.log('Registration succeeded. Scope is ' + reg.scope);
-            }).catch(function(error) {
-            // registration failed
-            console.log('Registration failed with ' + error);
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(function (reg) {
+          if (window.PushManager) {
+            reg.pushManager.getSubscription().then(subscription => {
+              // 如果用户没有订阅
+              if (!subscription) {
+                subscribeUser(reg);
+              } else {
+                console.log("You have subscribed our notification");
+              }
+            });
+          }
+          // registration worked
+          console.log('Registration succeeded. Scope is ' + reg.scope);
+          navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage(
+            "this message is from page");
+        }).catch(function (error) {
+          // registration failed
+          console.log('Registration failed with ' + error);
         });
     }
-</script>
+
+    function urlBase64ToUint8Array(base64String) {
+      const padding = '='.repeat((4 - base64String.length % 4) % 4);
+      const base64 = (base64String + padding)
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+
+      const rawData = window.atob(base64);
+      const outputArray = new Uint8Array(rawData.length);
+
+      for (let i = 0; i < rawData.length; ++i) {
+        outputArray[i] = rawData.charCodeAt(i);
+      }
+      return outputArray;
+    }
+
+    function subscribeUser(swRegistration) {
+      console.log(123);
+      const applicationServerPublicKey =
+        "BCNTt-DA6-K7LNVKugSgYjgJsofg6eJhtDmgylH3Wi-km4ElYbzy8LwONVZZgCMf6kLvuarbIZAm0S3SWX3wE6w";
+      const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);
+      swRegistration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: applicationServerKey
+        })
+        // 用户同意
+        .then(function (subscription) {
+          console.log('User is subscribed:', JSON.stringify(subscription));
+          // jQuery.post("/add-subscription.php", {
+          //   subscription: JSON.stringify(subscription)
+          // }, function (result) {
+          //   console.log(result);
+          // });
+        })
+        // 用户不同意或者生成失败
+        .catch(function (err) {
+          console.log('Failed to subscribe the user: ', err);
+        });
+    }
+  </script>
 </body>
+
 </html>
