@@ -1,5 +1,6 @@
 const CACHE_KEY = 'demo';
 const CACHE_FILES = [
+  'service-worker.js',
   '/',
   'bg.jpg',
   'index.js',
@@ -66,7 +67,7 @@ this.addEventListener('push', function (event) {
   console.log('[Service Worker] Push Received.');
   console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
 
-  const title = 'Push Codelab';
+  const title = '好消息！好消息！本店开业大酬宾！';
   const options = {
     body: 'Yay it works.',
     // icon: 'images/icon.png',
@@ -83,6 +84,6 @@ this.addEventListener('notificationclick', function (event) {
   notification.close();
   event.waitUntil(
     // notification.data.url || 
-    clients.openWindow('baidu.com')
+    clients.openWindow('https://baidu.com')
   );
 });
