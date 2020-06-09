@@ -1,6 +1,7 @@
 const CACHE_KEY = 'demo';
 const CACHE_FILES = [
   '/',
+  '/index.html',
   'bg.jpg',
   'index.js',
   'index.css'
@@ -8,6 +9,7 @@ const CACHE_FILES = [
 
 
 self.addEventListener('install', function (event) { // 监听worker的install事件
+  console.log(self);
   event.waitUntil( // 延迟install事件直至Cache初始化完成
     caches.open(CACHE_KEY)
     .then(function (cache) {
@@ -29,16 +31,38 @@ self.addEventListener('activate', function (event) { // 监听worker的activate�
   )
 });
 
-self.addEventListener('fetch', function (event) { // 拦截资源请求
-  event.respondWith( // 返回资源请求
-    caches.match(event.request).then(function (res) { // 判断是否命中缓存
-      if (res) { // 返回缓存的资源
-        return res;
-      }
-      fallback(event); // 执行请求备份操作
+// self.addEventListener('fetch', function (event) { // 拦截资源请求
+//   event.respondWith( // 返回资源请求
+//     caches.match(event.request).then(function (res) { // 判断是否命中缓存
+//       if (res) { // 返回缓存的资源
+//         return res;
+//       }
+//       fallback(event); // 执行请求备份操作
+//     })
+//   )
+// });
+
+self.addEventListener('fetch', function (event) {
+  console.log(event.request);
+  event.respondWith(
+    caches.match(event.request).then(res => {
+      return res ||
+        fetch(event.request)
+        .then(response => {
+          // 因为对请求和响应流只能取一次，固克隆一下
+          const responseClone = response.clone();
+          caches.open('demo').then(cache => {
+            cache.put(event.request, responseClone);
+          })
+          return response;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     })
   )
 });
+
 
 function fallback(event) { // 恢复原始请求
   const url = event.request.clone();
