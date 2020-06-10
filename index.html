@@ -13,28 +13,37 @@
   <div class="image"></div>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+      navigator.serviceWorker.register('/service-worker.js', {
+          scope: '/'
+        })
         .then(function (reg) {
           console.log(navigator, reg);
+          // 从第三方服务器接收消息通知的能力
           if (window.PushManager) {
             reg.pushManager.getSubscription().then(subscription => {
               // 如果用户没有订阅
               if (!subscription) {
                 subscribeUser(reg);
               } else {
-                console.log("You have subscribed our notification");
+                console.log("你已订阅消息服务");
               }
             });
           }
-          // registration worked
-          console.log('Registration succeeded. Scope is ' + reg.scope);
+          console.log('注册成功，监听范围是' + reg.scope);
           navigator.serviceWorker.controller && navigator.serviceWorker.controller.postMessage(
-            "this message is from page");
+            "页面发送消息给SW");
         }).catch(function (error) {
-          // registration failed
-          console.log('Registration failed with ' + error);
+          console.log('注册失败' + error);
         });
     }
+
+    navigator.serviceWorker.addEventListener('message', function (e) {
+      const {
+        origin,
+        data,
+      } = event;
+      console.log(`从源${origin}发送来的====>${data}`);
+    });
 
     function urlBase64ToUint8Array(base64String) {
       const padding = '='.repeat((4 - base64String.length % 4) % 4);
@@ -52,7 +61,7 @@
     }
 
     function subscribeUser(swRegistration) {
-      console.log(123);
+      // 这里的公钥通过web-push生成，暂时可能是因为谷歌的GFM墙的原因不成功，看tool的pushMessage好了
       const applicationServerPublicKey =
         "BCNTt-DA6-K7LNVKugSgYjgJsofg6eJhtDmgylH3Wi-km4ElYbzy8LwONVZZgCMf6kLvuarbIZAm0S3SWX3wE6w";
       const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);

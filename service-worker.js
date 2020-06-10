@@ -10,7 +10,6 @@ const CACHE_FILES = [
 
 
 self.addEventListener('install', function (event) { // 监听worker的install事件
-  console.log(self);
   event.waitUntil( // 延迟install事件直至Cache初始化完成
     caches.open(CACHE_KEY)
     .then(function (cache) {
@@ -21,6 +20,7 @@ self.addEventListener('install', function (event) { // 监听worker的install事
 });
 
 self.addEventListener('activate', function (event) { // 监听worker的activate事件
+  console.log(self);
   event.waitUntil( // 延迟activate事件直到Cache初始化完成
     caches.keys().then(function (keys) {
       return Promise.all(keys.map(function (key, i) { // 清除旧版本缓存
@@ -44,7 +44,6 @@ self.addEventListener('activate', function (event) { // 监听worker的activate�
 // });
 
 self.addEventListener('fetch', function (event) {
-  console.log(event.request);
   event.respondWith(
     caches.match(event.request).then(res => {
       return res ||
@@ -52,6 +51,7 @@ self.addEventListener('fetch', function (event) {
         .then(response => {
           // 因为对请求和响应流只能取一次，固克隆一下
           const responseClone = response.clone();
+          console.log(responseClone);
           caches.open('demo').then(cache => {
             cache.put(event.request, responseClone);
           })
@@ -84,17 +84,24 @@ function fallback(event) { // 恢复原始请求
 }
 
 this.addEventListener('message', function (event) {
-  console.log(event.data); // this message is from page
+  const {
+    origin,
+    data,
+    source,
+  } = event;
+  console.log(`从源${origin}发送来的====>${data}`);
+  source.postMessage('从SW发送消息给页面');
 });
 
 this.addEventListener('push', function (event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  console.log(event);
+  console.log(`服务端推送的消息是: "${event.data.text()}"`);
 
-  const title = '好消息！好消息！本店开业大酬宾！';
+  const title = '好消息！好消息！';
   const options = {
-    body: 'Yay it works.',
-    // icon: 'images/icon.png',
+    body: event.data.text(),
+    icon: 'bg.png',
+    vibrate: [200, 100, 200, 100, 200, 100, 200],
     // badge: 'images/badge.png'
   };
 
@@ -102,7 +109,7 @@ this.addEventListener('push', function (event) {
 });
 
 this.addEventListener('notificationclick', function (event) {
-  console.log('[Service Worker] Notification click Received.');
+  console.log();
 
   let notification = event.notification;
   notification.close();
