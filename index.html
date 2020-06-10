@@ -14,7 +14,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/ServiceWorkerDemo/service-worker.js', {
-          scope: '/'
+          scope: '/ServiceWorkerDemo/'
         })
         .then(function (reg) {
           console.log(navigator, reg);
