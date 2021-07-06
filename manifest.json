@@ -1,17 +1,41 @@
 {
+  "id": "0.0.1",
   "name": "binyellow",
   "short_name": "binyellow",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#fff",
   "description": "A simply readable Hacker News app.",
-  "related_applications": [
+  "icons": [
     {
-      "platform": "web"
+      "src": "./bg.jpg",
+      "sizes": "48x48",
+      "type": "image/png"
     },
     {
-      "platform": "play",
-      "url": "https://play.google.com/store/apps/details?id=cheeaun.hackerweb"
+      "src": "./bg.jpg",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./bg.jpg",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "./bg.jpg",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "./bg.jpg",
+      "sizes": "168x168",
+      "type": "image/png"
+    },
+    {
+      "src": "./bg.jpg",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ]
 }
