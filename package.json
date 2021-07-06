@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "web-push": "^3.4.4"
+    "web-push": "^3.4.5"
   }
 }
