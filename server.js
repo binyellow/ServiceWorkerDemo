@@ -1,18 +1,20 @@
 const webpush = require("web-push");
 // VAPID keys should be generated only once.
 console.log(webpush.generateVAPIDKeys());
-var vapidPublicKey = "BAdUQc5D_5qUD2Bk0KxRcyb_uDnKV4LS2Vd0rEfwh7VGoWTSBX1DCWkZbw1tTHH_FQqb9QkoZXRR5AMi7EXtwlw";
-var vapidPrivateKey = "Q-mskTejA1YTbJhx9I84TSVN8CCRUcSYXZ1IeJjqEo4";
+const key = {
+  publicKey: "BKiZQsVXCphqnpsKCb864-8erc6ePbIMxEIdT0mKF9MLA5-fBdrxKY-4wa3LSvo7e6hnoiSZD3SofoTHU7Ulbzw",
+  privateKey: "_IpBm5vuRZVMKJaUBoXVnZI-fkaJYnXW0HWaoGMf0No",
+};
 
-webpush.setVapidDetails("mailto:myaccount@outlook.com", vapidPublicKey, vapidPrivateKey);
+webpush.setVapidDetails("mailto:myaccount@outlook.com", key.publicKey, key.privateKey);
 
 const pushSubscription = {
   endpoint:
-    "https://fcm.googleapis.com/fcm/send/cxijTBekqhk:APA91bFFBGFUg4s54YuCsSEPpUA-v1lNHMoxt-f8u3gmqgIUtMogV2VLtfR3-xakZrNf9dTihYIYvGY5j0jpleqB3p55RKiHZhfZ59K5qipYhw3e-g3_hICUUvJIF2TKPnyxoyU2QJPr",
+    "https://fcm.googleapis.com/fcm/send/eKcM3tnZkQI:APA91bHWC9evkRDAsVeDvjqxdifWBfaFvjTPx7rnYxPOEvcnvKLXs8r2glbRYT73nQLQFK3Tf5zCELHOSyE9Yur11UUXZBQzx1A0WcKoWLKqrj8vMBRVHBIqYnP4PSrWL1vHRtcGwbIE",
   expirationTime: null,
   keys: {
-    p256dh: "BAZfJJsHbB8Ft_Ix6QN4WLoKuELS7yxSstg2xmPlW6os_YV7f5N92xQ3S-1dn1SPTXs9k4qWImYeRng1FJ-Jyxc",
-    auth: "n0SoO_OBkptZAzJlGbwF3A",
+    p256dh: "BN9j_DUANrUxgPZjOlxWCwUHyGJSKEI7qQ7Z3u6W55qwG5PF1W4Mzho8_TB9dtwJ7vNNrSKNmIzCXCV_2yFhpxo",
+    auth: "qhRopkRmLY_UOQ2F6TfWeg",
   },
 };
 

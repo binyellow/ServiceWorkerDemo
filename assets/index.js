@@ -61,7 +61,7 @@ function urlBase64ToUint8Array(base64String) {
 function subscribeUser(swRegistration) {
   // 这里的公钥通过web-push生成，暂时可能是因为谷歌的GFM墙的原因不成功，看tool的pushMessage好了
   const applicationServerPublicKey =
-    "BAdUQc5D_5qUD2Bk0KxRcyb_uDnKV4LS2Vd0rEfwh7VGoWTSBX1DCWkZbw1tTHH_FQqb9QkoZXRR5AMi7EXtwlw";
+    "BKiZQsVXCphqnpsKCb864-8erc6ePbIMxEIdT0mKF9MLA5-fBdrxKY-4wa3LSvo7e6hnoiSZD3SofoTHU7Ulbzw";
   const applicationServerKey = urlBase64ToUint8Array(applicationServerPublicKey);
   swRegistration.pushManager
     .subscribe({

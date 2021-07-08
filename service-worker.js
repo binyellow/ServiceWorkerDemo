@@ -106,20 +106,21 @@ this.addEventListener("message", function (event) {
 this.addEventListener("push", function (event) {
   console.log(event);
   console.log(`服务端推送的消息是: "${event.data.text()}"`);
+  const { title, body, icon, data: { url } } = JSON.parse(event.data.text());
 
-  const title = "好消息！好消息！";
+  const calTitle = title || "好消息！好消息！";
   const options = {
-    body: event.data.text(),
-    icon: "bg.png",
+    body: body,
+    icon: icon || "bg.png",
     vibrate: [200, 100, 200, 100, 200, 100, 200],
     // badge: 'images/badge.png'
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  event.waitUntil(self.registration.showNotification(calTitle, options));
 });
 
 this.addEventListener("notificationclick", function (event) {
-  console.log();
+  console.log(event);
 
   let notification = event.notification;
   notification.close();
