@@ -1,5 +1,3 @@
-module.exports = {
-  say(name) {
-    console.log(1, name);
-  },
-};
+function say(name) {
+  console.log(1, name);
+}

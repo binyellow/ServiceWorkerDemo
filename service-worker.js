@@ -1,10 +1,6 @@
 const CACHE_KEY = "demo";
-let CACHE_FILES = [
-  "/assets/bg.jpg",
-  "/assets/index.css",
-  "/assets/test.js",
-  '/assets/manifest.json'
-];
+let CACHE_FILES = ["/assets/bg.jpg", "/assets/index.css", "/assets/index.js", "/assets/manifest.json"];
+let regFiles = ['/assets/test*'];
 
 self.addEventListener("install", function (event) {
   // 监听worker的install事件
@@ -59,7 +55,9 @@ self.addEventListener("fetch", function (event) {
               const { url } = event.request;
               const indexSlice = `${url}`?.lastIndexOf("/");
               const calUrl = url?.slice(indexSlice);
-              if (CACHE_FILES.some((cacheName) => calUrl.indexOf(cacheName) >= 0)) {
+              if (
+                regFiles.some((cacheName) => calUrl.indexOf(cacheName) >= 0 || new RegExp(cacheName).test(cacheName))
+              ) {
                 // 因为对请求和响应流只能取一次，固克隆一下
                 const responseClone = response.clone();
                 console.log(responseClone);
