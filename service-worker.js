@@ -126,6 +126,6 @@ this.addEventListener("notificationclick", function (event) {
   notification.close();
   event.waitUntil(
     // notification.data.url ||
-    clients.openWindow("https://baidu.com")
+    clients.openWindow("https://test.lingshou.qq.com")
   );
 });

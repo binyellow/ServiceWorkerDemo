@@ -10,11 +10,11 @@ webpush.setVapidDetails("mailto:myaccount@outlook.com", key.publicKey, key.priva
 
 const pushSubscription = {
   endpoint:
-    "https://fcm.googleapis.com/fcm/send/eKcM3tnZkQI:APA91bHWC9evkRDAsVeDvjqxdifWBfaFvjTPx7rnYxPOEvcnvKLXs8r2glbRYT73nQLQFK3Tf5zCELHOSyE9Yur11UUXZBQzx1A0WcKoWLKqrj8vMBRVHBIqYnP4PSrWL1vHRtcGwbIE",
+    "https://fcm.googleapis.com/fcm/send/cUBDFyUnx_Y:APA91bHVePEwEHWbQz5bPQ9Rs_ADgRX_7cviKOKeao8I2mH5CnlNHSAivYuPHNyUhRk7E27TjCqwlrUDEYzEMufuWWcGsFwtn7vR50cht27aX8a2LeXd2y2ttC7bw5PVDLZVEYwjPDZ4",
   expirationTime: null,
   keys: {
-    p256dh: "BN9j_DUANrUxgPZjOlxWCwUHyGJSKEI7qQ7Z3u6W55qwG5PF1W4Mzho8_TB9dtwJ7vNNrSKNmIzCXCV_2yFhpxo",
-    auth: "qhRopkRmLY_UOQ2F6TfWeg",
+    p256dh: "BIOkrhdpHuOWa6Rfwgz0fn2GdTbPH0JS0scaVS5EuI734wSbx13jxyIetOLht3mjQv2ptJf9-9-Op7oYdfdi7Tg",
+    auth: "CRI3k0HiFtAGYXaQzjy7rQ",
   },
 };
 
